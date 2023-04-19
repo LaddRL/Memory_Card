@@ -18,26 +18,25 @@ class Game extends Component {
         this.state = {
             items,
         };
+
+        this.handleAnswer = this.handleAnswer.bind(this);
     }
 
-    handleAnswer(event, id, answer) {
+    handleAnswer(event, item, index, answer) {
     // Compare item.display with answer
         // Either increment or reset current score
-        this.props.handleScore(this.items[id].displayed === answer);
+        console.log(item.displayed, answer);
+        this.props.handleScore(item.displayed === answer);
     // Change the item that is displayed
     // If the shown item hasn't been displayed, changed displayed property to true
-        if(this.state.items[id].displayed) {
-            const items = this.state.items.map(item => {
-                if(item.displayed) {
-                    return item;
-                } else {
-                    item.displayed = true;
-                    return item;
-                }
+            const items = this.state.items.map((i) => {
+                if(i == item) {
+                        i.displayed = true;
+                        return i;
+                } else return i;
             });
             this.setState({ items });
         }
-    }
 
     randomItemIndex() {
         let rand = Math.floor(Math.random() * items.length);
@@ -46,11 +45,12 @@ class Game extends Component {
 
     render() {
         const { items } = this.state;
-        const item = items[this.randomItemIndex()];
+        const index = this.randomItemIndex();
+        const item = items[index];
         return (
-            <main className="d-flex justify-content-around align-items-center">
-                <p>{item.content}</p>
-                <Prompt item={item} handleAnswer={this.handleAnswer} />
+            <main>
+                <p id={index}>{item.content}</p>
+                <Prompt item={item} index={index} handleAnswer={this.handleAnswer} />
             </main>
         );
     }
