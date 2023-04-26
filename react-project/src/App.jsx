@@ -1,42 +1,34 @@
-import { Component } from "react";
+import { useState } from "react";
 import "./App.css";
 import Game from "./components/Game";
 import Header from "./components/Header";
 
-class App extends Component {
-    constructor() {
-        super();
+function App(){
+    
+    let [items, setItems] = useState([])
+    let [currentScore, setCurentScore] = useState(0)
+    let [bestScore, setBestScore] = useState(0)
 
-        this.state = {
-            currentScore: 0,
-            bestScore: 0,
-        };
 
-        this.handleScore = this.handleScore.bind(this);
-    }
-
-    handleScore(increment) {
-        console.log("handleScore", increment)
-        if(increment) {
-            this.setState({
-                currentScore: this.state.currentScore + 1,
-            });
+    function handleScore(increment){
+        if(increment){
+            setCurentScore(
+                currentScore + 1,
+            )
         } else {
-            this.setState({
-                currentScore: 0,
-            });
+            if(currentScore>bestScore){
+                setBestScore(currentScore)
+            }
+            setCurentScore(0)
         }
     }
 
-    render() {
-        const { currentScore, bestScore } = this.state;
-        return (
-            <div className="App">
-                <Header currentScore={currentScore} bestScore={bestScore} />
-                <Game handleScore={this.handleScore} />
-            </div>
-        );
-    }
+    return(
+        <div className='App'>
+            <Header currentScore={currentScore} bestScore={bestScore} />
+            <Game handleScore={handleScore} />
+        </div>
+    )
 }
 
 export default App;

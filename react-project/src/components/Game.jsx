@@ -38,6 +38,7 @@ class Game extends Component {
             this.setState({ items });
         }
 
+
     randomItemIndex() {
         let rand = Math.floor(Math.random() * items.length);
         return rand;
